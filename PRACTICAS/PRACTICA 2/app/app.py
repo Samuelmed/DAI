@@ -1,26 +1,33 @@
 #./app/app.py
 from flask import Flask, url_for
-from ejercicio2 import burbuja
+from ejercicios.ejercicio2 import burbuja
+from ejercicios.ejercicio3 import criba
+from ejercicios.ejercicio4 import fibonacci
+from ejercicios.ejercicio5 import cadena
 import re
 app = Flask(__name__)
           
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def indice():
+    return app.send_static_file('index.html')
 
 @app.route('/ordena/<elementos>')
 def ordenar(elementos):
-    print(url_for('static', filename='style.css'))
-    lista = re.findall('[0-9]',elementos)
-    aux = []
-
-    for i in range(len(lista)):
-        aux.append(int(lista[i]))
+    lista = elementos.split(',')
+    
    
-    burbuja(aux)
-    final = [str(x) for x in aux]
-    final2 = "".join(final)
-    return final2
+    burbuja(lista)
 
-with app.test_request_context():
-    url_for('static', filename='style.css')
+    return str(lista)
+
+@app.route('/criba/<numero>')
+def cribar(numero):
+    return criba(numero)
+
+@app.route('/fibonacci/<numero>')
+def fibo(numero):
+    return fibonacci(numero)
+
+@app.route('/cadena')
+def cade():
+    return cadena()
