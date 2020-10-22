@@ -31,3 +31,10 @@ def fibo(numero):
 @app.route('/cadena')
 def cade():
     return cadena()
+
+#Vamos a crear una ruta para cuando no exista la ruta a la que 
+#se está intentando acceder
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return 'Está página no ha sido encontrada',404
