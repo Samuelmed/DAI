@@ -4,6 +4,9 @@
 
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from pickleshare import * 
+from ejercicios.ejercicio2 import burbuja
+from ejercicios.ejercicio3 import criba
+from ejercicios.ejercicio4 import fibonacci
 
 ##Para una aproximacion inicial, vamos a usar una matriz como base de datos
 baseUsuario =[['admin', 'secret']]
@@ -60,12 +63,11 @@ def singup():
         elif name in db.keys():
             error = "Lo siento, ya existe este usuario"
         else:  
-            usuarioAct = session['usuActual']
             db[name] = dict()
             db[name]['pass'] = pssw
-            db[usuarioAct]['name'] = ''
-            db[usuarioAct]['surname'] = ' '
-            db[usuarioAct]['age'] = '  '
+            db[name]['name'] = ''
+            db[name]['surname'] = ' '
+            db[name]['age'] = '  '
             db[name] = db[name]
             flash('Te has registrado correctamente, por favor intente acceder')
             return redirect (url_for('index'))
@@ -107,6 +109,31 @@ def mostrar():
     surname = db[usuarioAct]['surname'] 
     age = db[usuarioAct]['age'] 
     return render_template('userdata.html', nombre = name, apellido = surname, edad = age)
+
+@app.route('/ejer1' , methods=['GET','POST'])
+def mostrarEjer1():
+    if request.method == 'POST':
+        numeros = request.form['numbers']
+        lista = numeros.split(',')
+        ordenado =burbuja(lista)
+        return render_template('ejer1.html', ordenado=True, lista=ordenado)
+    return render_template('ejer1.html', ordenado=False)
+
+@app.route('/ejer2' , methods=['GET','POST'])
+def mostrarEjer2():
+    if request.method == 'POST':
+        numero = request.form['number']
+        lista =criba(numero)
+        return render_template('ejer2.html', ordenado=True, lista=lista)
+    return render_template('ejer2.html', ordenado=False)
+
+@app.route('/ejer3' , methods=['GET','POST'])
+def mostrarEjer3():
+    if request.method == 'POST':
+        numero = request.form['number']
+        numero = fibonacci(numero)
+        return render_template('ejer3.html', ordenado=True, lista=numero)
+    return render_template('ejer3.html', ordenado=False)
 
 
 @app.after_request
