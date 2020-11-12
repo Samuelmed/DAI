@@ -5,14 +5,16 @@
     <header>
         <!-- Añadimos una barra de navegación-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Samuel's web</a>
+        <a  class="navbar-brand" href="/">Samuel's web</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
             <a class="nav-link active" href="/">Samuel Medina <span class="sr-only">(current)</span></a>
-            <a class="nav-link" href="/login">log in</a>
+            {% if logeado==False %}
+                <a class="nav-link" href="/login">log in</a>
+            {% endif %}
             <a class="nav-link" href="/signup">Sign up</a>
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </div>
@@ -33,10 +35,39 @@
         <a class="nav-link"  href="https://www.google.es/maps/?hl=es">Maps</a>
         </div>
         <div class = "col-sm">
-        {% block cuadroLogin %}{% endblock %}
+            {% block cuadroLogin %}{% endblock %}
         </div>
+
+        {% if logeado %}
+            <div class = "col-sm">
+                <nav class = "navbar bg-light">
+                    <ul>
+                        <li>
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/adddata">Añadir información</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/userdata">Informacion de usuario</a>
+                        </li>
+                    </ul>
+                    
+                </nav>
+            </div>
+        {% endif %}
+
         <div class = "col-sm">
-        
+            <nav class = "navbar bg-light">
+                <h5> Ultimas páginas de la Web visitadas</h5>
+                <ul>
+                    {% for url in urls %}
+                        <li>
+                            <a class ="nav-link"> href={{url}}>{{url}}</a>
+                        </li>    
+                    {% endfor %}
+                </ul>
+            </nav>
         </div>
     </div>
     

@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+{% block cuadroLogin %}
+<div class="row">
+
+    <div class="col">
+      <h1>Datos de usuario</h1>
+    </div>
+    <div class="col">
+      {% if error %}
+      <p class=error><strong>Error:</strong> {{ error }}
+        {% else %}
+      Nombre: {{nombre}}
+      <br>
+      Apellidos: {{apellido}}
+      <br>
+      Edad: {{edad}}
+    </nav>
+  </div>
+  {% endif %}
+    
+</div>
+
+{% endblock %}
