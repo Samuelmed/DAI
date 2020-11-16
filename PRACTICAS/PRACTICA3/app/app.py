@@ -7,22 +7,19 @@ from pickleshare import *
 from ejercicios.ejercicio2 import burbuja
 from ejercicios.ejercicio3 import criba
 from ejercicios.ejercicio4 import fibonacci
+from model import dataBase
 
-##Para una aproximacion inicial, vamos a usar una matriz como base de datos
-baseUsuario =[['admin', 'secret']]
 
 app = Flask(__name__)
 app.secret_key = 'claveSuperSecreta'
-db = PickleShareDB('Usuarios')
+
 
 ##Añadimos el primer usuario "Admin, secret"
 
-db['admin'] = dict()
-db['admin']['pass'] = 'secret'
-db['admin']['name'] = ''
-db['admin']['surname'] = ' '
-db['admin']['age'] = '  '
-db['admin'] = db['admin']
+bd = dataBase()
+
+
+
 
 
 
@@ -30,6 +27,8 @@ db['admin'] = db['admin']
 @app.route('/')
 @app.route('/index')
 def index():
+    if not session.get('visited'):
+        session['visited'] = []
     if not session.get('logeado'):
         session['logeado'] = False
         if not session.get('usuActual'):
@@ -43,7 +42,7 @@ def login():
     if request.method == 'POST':
         name = request.form['username']
         pssw = request.form['password']  
-        if  name in db.keys() and db[name]['pass'] == pssw:
+        if  name in bd.getKeys() and bd.getPssw(name) == pssw:
             flash('Te has logeado correctamente')
             session['logeado'] = True  
             session['usuActual'] = name
@@ -60,15 +59,10 @@ def singup():
         pssw = request.form['password']
         if not name or not pssw:
             error = "Has introducido una cadena vacia"
-        elif name in db.keys():
+        elif name in bd.getKeys():
             error = "Lo siento, ya existe este usuario"
         else:  
-            db[name] = dict()
-            db[name]['pass'] = pssw
-            db[name]['name'] = ''
-            db[name]['surname'] = ' '
-            db[name]['age'] = '  '
-            db[name] = db[name]
+            bd.aniade(name,pssw)
             flash('Te has registrado correctamente, por favor intente acceder')
             return redirect (url_for('index'))
        
@@ -84,20 +78,21 @@ def logout():
 @app.route('/adddata', methods = ["GET" , "POST"])
 def aniade():
     error = None
+
     usuarioAct = session['usuActual']
-    name =db[usuarioAct]['name'] 
-    surname = db[usuarioAct]['surname'] 
-    age = db[usuarioAct]['age'] 
+    infor = bd.getInformacion(usuarioAct)
+    name = infor[0]
+    surname = infor[1] 
+    age = infor[2]
     if request.method == 'POST':
         usuarioAct = session['usuActual']
         name = request.form['name']
         surname = request.form['surname']
         age = request.form['age']
 
-        db[usuarioAct]['name'] = name
-        db[usuarioAct]['surname'] = surname
-        db[usuarioAct]['age'] = age
-        db[usuarioAct] = db[usuarioAct]
+        bd.aniadirInformacion(usuarioAct,name,surname,age)
+
+
 
         return redirect(url_for('index'))
     return render_template('aniade.html', error = error, nombre = name, apellido = surname, edad = age)
@@ -105,9 +100,10 @@ def aniade():
 @app.route('/userdata')
 def mostrar():
     usuarioAct = session['usuActual']
-    name =db[usuarioAct]['name'] 
-    surname = db[usuarioAct]['surname'] 
-    age = db[usuarioAct]['age'] 
+    infor = bd.getInformacion(usuarioAct)
+    name = infor[0]
+    surname = infor[1] 
+    age = infor[2]
     return render_template('userdata.html', nombre = name, apellido = surname, edad = age)
 
 @app.route('/ejer1' , methods=['GET','POST'])
@@ -154,4 +150,9 @@ def aniade_url():
     else:
         lurls=[]
     return dict(urls = lurls)
+
+@app.context_processor
+def log():
+    logeados = session['logeado']
+    return dict(logeado=logeados)
 
