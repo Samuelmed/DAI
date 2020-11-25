@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+{% block cuadroLogin %}
+<div class="row">
+
+<form method="post">
+    <div class="form-group">
+        <label for="numbers">Introduzca el número máximo para saber sus primos predecesores:</label>
+        <input type="text" id="number" name="number" /><br>
+        <button type="submit" class="btn btn-default" value="numero">calcular</button>
+        
+    </div>
+</form>
+    
+</div>
+{% if ordenado %}
+    <h5>Primos antecesores: </h5>
+    <div>
+        {% for numero in lista %}
+            
+                {{numero}}
+              
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}
