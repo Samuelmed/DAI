@@ -1,0 +1,53 @@
+{% extends "index.html" %}
+{% block cuadroLogin %}
+<div class="container-fluid"></div>
+    <div class="col">
+
+        <form method="post">
+            <div class="form-group">
+                <label for="numbers">Introduzca nombre del episodio:</label>
+                <input type="text" id="title" name="title" /><br>
+                <button type="submit" class="btn btn-default" value="numero">Buscar</button>
+                
+            </div>
+        </form>
+
+
+            
+    </div>
+
+    {%if buscado %}
+    
+       
+        {%for i in match%}
+        <div class ='container'>
+            <div class ='row'>
+            <div class='col'>
+            
+                <h4>Nombre:  {{i[0]}} </h4>
+                <h4>Fecha: {{i[1]}} </h4>
+                <h4>Duración: {{i[2]}} </h4>
+                <h4>Sumario:   </h4> {{i[3]}}
+                <br>
+            </div>
+
+            <div class='col'>
+                <img src="{{i[4]}}" >
+            </div>
+        </div>
+        </div>
+
+        
+            
+            
+        {%endfor%}
+    
+ 
+    {%endif%}
+</div>
+    
+
+    
+
+
+{% endblock %}
