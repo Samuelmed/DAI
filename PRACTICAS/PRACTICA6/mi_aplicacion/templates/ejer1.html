@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+{% block cuadroLogin %}
+<div class="row">
+
+<form method="post">
+    <div class="form-group">
+        <label for="numbers">Introduzca los números a ordenar, separados por comas:</label>
+        <input type="text" id="numbers" name="numbers" /><br>
+        <button type="submit" class="btn btn-default" value="numero">calcular</button>
+        
+    </div>
+</form>
+    
+</div>
+{% if ordenado %}
+    <h5>Lista ordenada: </h5>
+    <div>
+        {% for numero in lista %}
+            
+                {{numero}}
+              
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -20,5 +20,6 @@ from django.conf.urls import include, url
 urlpatterns = [
     url('admin/', admin.site.urls),
     url('', include('mi_aplicacion.urls')),
+    url('login', include('mi_aplicacion.urls')),
     
 ]
