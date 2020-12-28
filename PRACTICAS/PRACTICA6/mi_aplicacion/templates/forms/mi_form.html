@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mis forms</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container text-center pt-5">
+        <h1>Hola</h1>
+        <p>Mi tutorial de forms</p>
+        <div class='jumbotron'>
+        <div class='col'>
+          <center>
+            <div class="text-left" style="max-width:500px">
+              <form action="{% url 'mi_form' %}" method="post">
+                {% csrf_token %}
+                {% for field in register_form %}
+                <div class='form-group'>
+                  <label for="{{ field.name }}">{{ field.label }}</label>
+                  {{ field }}
+                </div>
+                {% endfor %}
+                <br>
+                <center><button type="submit" class="btn btn-success btn-lg">Registrar Libro</button></center>
+              </form>
+            </div>
+          </center>
+        </div>
+        <div class='raw'>
+            <center>
+                <div class="text-left" style="max-width:500px">
+                  <form action="{% url 'mi_form' %}" method="delete">
+                    {% csrf_token %}
+                    {% for field in delete_form %}
+                    <div class='form-group'>
+                      <label for="{{ field.name }}">{{ field.label }}</label>
+                      {{ field }}
+                    </div>
+                    {% endfor %}
+                    <br>
+                    <center><button type="submit" class="btn btn-success btn-lg">Borrar Libro</button></center>
+                  </form>
+                </div>
+              </center>
+        </div>
+          <br>
+          <table  class="table table-striped table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th>#</th>
+                <th>Titulo</th>
+                <th>Autor</th>
+              </tr>
+            </thead>
+    <tbody>
+              {% for lib in libros %}
+              <tr>
+                <td>{{ lib.id }}</td>
+                <td>{{ lib.titulo }}</td>
+                <td>{{ lib.autor }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
